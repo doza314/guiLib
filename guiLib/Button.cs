@@ -88,6 +88,7 @@ public class Button
             
         }
         */
+        return true; //FOR NOW
     }
 
     public void drawSprite(RenderWindow win)

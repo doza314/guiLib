@@ -1,6 +1,6 @@
 04/19/2026
 
-I like making little GUI apps for personal amusement whenever I have the time.
+I like making little 2D games for personal amusement whenever I have the time.
 I use SFML a lot and always find myself struggling with how to properly implement user-input handling along with
 other GUI-related functionality. So, I decided to make a library that will, once and for all, serve as a 
 personal, permanent solution to handling these scenarios. I'm trying to learn C# right now and I figured this would 
