@@ -11,8 +11,4 @@
       <PackageReference Include="SFML.Net" Version="3.0.0" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="res\" />
-    </ItemGroup>
-
 </Project>
