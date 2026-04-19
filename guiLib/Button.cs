@@ -3,7 +3,6 @@ using System.Diagnostics.Tracing;
 namespace guiLib;
 
 using System;
-using System.
 using SFML.Graphics;
 using SFML.Window;
 using SFML.System;
@@ -29,12 +28,15 @@ I'll probably make a toggle switch variant, too.
 
 public class Button(Vector2u position, Vector2u dimensions, string filePath)
 {
-    private var texture = new Texture(filePath);
-    private var pos = position;
-    private var dims = dimensions;
+    private Texture texture = new Texture(filePath);
+    private Vector2u pos = position;
+    private Vector2u dims = dimensions;
 
-    public bool poll()
+    public bool poll(Window win)
     {
-        
+        var mousePos = Mouse.GetPosition(win);
+        var leftClickOn = Mouse.IsButtonPressed(Mouse.Button.Left);
+
+        return true;
     }
 }
