@@ -10,5 +10,6 @@ using SFML.System;
 //INPUT PARAMETERS: POSITION (X,Y), DIMENSIONS (X,Y), FILE PATH
 public class Button(Vector2u position, Vector2u dimensions, string filePath)
 {
+    private var texture = new Texture(filePath);
     
 }
