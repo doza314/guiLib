@@ -60,6 +60,15 @@ public class Button
         bool pressing = false;
         bool leftClickOn = Mouse.IsButtonPressed(Mouse.Button.Left);
             
+        win.MouseButtonPressed += (sender, e) =>
+        {
+            if (e.Button == Mouse.Button.Left)
+            {
+                
+            }   
+            // do stuff
+        };
+        
         if (leftClickOn)
         {
             if (state == ButtonState.Idle && sprite.GetGlobalBounds().Contains(mousePos))
