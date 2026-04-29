@@ -29,7 +29,7 @@ public class Menu
           if (butt.getBounds().Contains(e.Position))
           {
             butt.setState(ButtonState.Active);
-            if (butt.selected())
+            if (butt.selected() == ButtonState.Selected) //THIS IS WHEN THE NEXT MENU IS SUPPOSED TO BE TRIGGERED
             {
               
             }

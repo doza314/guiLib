@@ -40,8 +40,8 @@ public class Button
     private bool on = false;
     private bool isToggle = false;
     private string name;
-
-    public Button(Vector2f position, Vector2f dimensions, string buttonName, bool toggleable, )
+    
+    public Button(Vector2f position, Vector2f dimensions, string buttonName, bool toggleable) //NAME STRING CORRESPONDS TO THE ASSOCIATED MENU
     {
         name = buttonName;
         isToggle = toggleable;
@@ -71,7 +71,7 @@ public class Button
             case ButtonState.Idle:
                 sprite.Texture = idleTexture;
                 break;
-            case ButtonState.Selected:
+            case ButtonState.Selected: //ALSO CORRESPONDS TO THE ON STATE OF TOGGLE BUTTONS 
                 sprite.Texture = idleTexture;
                 break;
             default:
@@ -94,15 +94,15 @@ public class Button
         win.Draw(sprite);
     }
 
-    public bool selected()
+    public ButtonState selected()
     {
         if (!isToggle)
         {
-            return true;
+            return ButtonState.Selected;
         }
         else
         {
-            return false;
+            return ButtonState.On;
         }   
     }
 }
