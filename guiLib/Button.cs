@@ -37,9 +37,14 @@ public class Button
     private Vector2f pos;
     private Vector2f dims;
     private Sprite sprite;
+    private bool on = false;
+    private bool isToggle = false;
+    private string name;
 
-    public Button(Vector2f position, Vector2f dimensions, string buttonName)
+    public Button(Vector2f position, Vector2f dimensions, string buttonName, bool toggleable, )
     {
+        name = buttonName;
+        isToggle = toggleable;
         idleString = "res/" + buttonName + ".png";
         activeString = "res/" + buttonName + "_pressed.png";
 
@@ -54,41 +59,34 @@ public class Button
         sprite.Position = pos;
     }
 
-    public bool DrawAndPoll(RenderWindow win)
+    public void setState(ButtonState buttState)
     {
-        Vector2i mousePos = Mouse.GetPosition();
-        bool pressing = false;
-        bool leftClickOn = Mouse.IsButtonPressed(Mouse.Button.Left);
-            
-        win.MouseButtonPressed += (sender, e) =>
+        this.state = buttState;
+
+        switch (state)
         {
-            if (e.Button == Mouse.Button.Left)
-            {
-                
-            }   
-            // do stuff
-        };
-        
-        if (leftClickOn)
-        {
-            if (state == ButtonState.Idle && sprite.GetGlobalBounds().Contains(mousePos))
-            {
-                state = ButtonState.Active;
+            case ButtonState.Active:
                 sprite.Texture = activeTexture;
-                
-            }
-            else if (state == ButtonState.Active )
-            {
-                
-            }
+                break;
+            case ButtonState.Idle:
+                sprite.Texture = idleTexture;
+                break;
+            case ButtonState.Selected:
+                sprite.Texture = idleTexture;
+                break;
+            default:
+                break;
         }
-        /*
-        else if (!leftClickOn) //I'll implement hovering graphics / behavior once I get off my ass and make the texture
-        {
-            
-        }
-        */
-        return true; //FOR NOW
+    }
+
+    public ButtonState getState()
+    {
+        return state;
+    }
+    
+    public FloatRect getBounds()
+    {
+        return sprite.GetGlobalBounds();
     }
 
     public void drawSprite(RenderWindow win)
@@ -96,4 +94,15 @@ public class Button
         win.Draw(sprite);
     }
 
+    public bool selected()
+    {
+        if (!isToggle)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }   
+    }
 }
