@@ -18,8 +18,10 @@ public class Menu
     }
   }
   
-  public void clickChecking(RenderWindow win)
+  public string triggerTransition(RenderWindow win)
   {
+    string nextMenu = "";
+    
     win.MouseButtonPressed += (sender, e) => //left mouse click event
     {
       foreach (Button butt in butts)
@@ -29,10 +31,6 @@ public class Menu
           if (butt.getBounds().Contains(e.Position))
           {
             butt.setState(ButtonState.Active);
-            if (butt.selected() == ButtonState.Selected) //THIS IS WHEN THE NEXT MENU IS SUPPOSED TO BE TRIGGERED
-            {
-              
-            }
             break;
           }
         }
@@ -47,8 +45,7 @@ public class Menu
         {
           if (butt.getBounds().Contains(e.Position) && butt.getState() == ButtonState.Active)
           {
-            butt.setState(ButtonState.Selected);
-            
+            nextMenu = butt.getName();
             break;
           }
           else
@@ -58,5 +55,7 @@ public class Menu
         }
       }
     };
+    
+    return nextMenu;
   }
 }
