@@ -6,6 +6,18 @@ other GUI-related functionality. So, I decided to make a library that will, once
 personal, permanent solution to handling these scenarios. I'm trying to learn C# right now and I figured this would 
 serve as a useful exercise. Maybe I'll make a C++ version of this. Probably not, but we'll see.
 
-Right now, I'm thinking this library will primarily center around button functionality. 
 
-For this library, 
+
+05/02/2026
+
+This is turning into a personalized menu-based software library. The main subject of this library is the state machine, which 
+is simply a collection of states (menus) and their corresponding triggering events (buttons). I will also be adding 
+functionality for toggle switches and sliders for adjusting user-defined parameters. 
+
+The original purpose of this library was simply to make menu navigation and user input handling much easier to deal with.
+This was originally supposed to be for my 2D games. For example, I wanted to make a 2D chess game and found myself struggling
+with the menus, buttons, and user input functionality. I'm just now starting to realize - because I'm slow - that this can have much 
+more general applications for all kinds of cross-platform desktop software. Stuff like this is already out there, but I 
+thought this would be a good project to teach myself a little more about C#.
+
+I don't know if I'm making sense. I'm kind of just vomiting my stream of consciousness into this page. 

@@ -7,8 +7,9 @@ using SFML.Window;
 public class StateMachine //THIS CLASS DIRECTS THE FLOW OF MENUS
 {
     private List<Menu> menus = new List<Menu>();
-
-    public StateMachine()
+    private RenderWindow window;
+    
+    public StateMachine(string Title, Vector2u dimensions, SFML.Graphics.Color? defaultBackgroundColor = null)
     {
         
     }

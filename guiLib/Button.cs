@@ -1,4 +1,5 @@
 using System.Diagnostics.Tracing;
+using System.Net.Http.Headers;
 
 namespace guiLib;
 
@@ -39,6 +40,7 @@ public class Button
     private Sprite sprite;
     private string name;
     
+    //button texture file name will default to buttonName + ".png"
     public Button(Vector2f position, Vector2f dimensions, string buttonName) //NAME STRING CORRESPONDS TO THE ASSOCIATED MENU
     {
         name = buttonName;
@@ -55,8 +57,39 @@ public class Button
         sprite.Origin = new Vector2f(0, 0); //origin of sprite in top-left corner
         sprite.Position = pos;
     }
+    
+    //SETTERS
+    public void setTextureFile(string filename) 
+    {
+        name = "res/" + filename;
+        idleString = name + ".png";
+        activeString = name + "_pressed.png";
+        
+        idleTexture = new Texture(idleString);
+        activeTexture = new Texture(activeString); 
+    }
 
-    public void setState(ButtonState buttState)
+    public void setIdle(string filename)
+    {
+        idleString = filename;
+    }
+
+    public void setActive(string filename)
+    {
+        activeString = filename;
+    }
+
+    public void setPosition(Vector2f position)
+    {
+        pos = position;
+    }
+
+    public void setDims(Vector2f dimensions)
+    {
+        dims = dimensions;  
+    }
+
+    public void setState(ButtonState buttState, bool? adjustTexture = true)
     {
         this.state = buttState;
 
@@ -72,6 +105,27 @@ public class Button
                 break;
         }
     }
+        
+    //GETTERS
+    public string getActiveString()
+    {
+        return activeString;
+    }
+
+    public string getIdleString()
+    {
+        return idleString;
+    }
+    
+    public Vector2f getPosition()
+    {
+        return pos;
+    }
+
+    public Vector2f getDims()
+    {
+        return dims;
+    }
 
     public ButtonState getState()
     {
@@ -83,14 +137,9 @@ public class Button
         return sprite.GetGlobalBounds();
     }
 
+    //DRAW BUTTON
     public void drawSprite(RenderWindow win)
     {
         win.Draw(sprite);
-    }
-    
-
-    public string getName()
-    {
-        return name;
     }
 }

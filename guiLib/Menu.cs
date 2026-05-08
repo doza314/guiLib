@@ -6,15 +6,17 @@ using SFML.Graphics;
 
 public class Menu
 {
-  private SFML.Graphics.Color bgColor;
   private Texture bgTexture;
   private List<Button> butts = new List<Button>();
   
-  public Menu(string title, Vector2u dimensions, string? bgImageName = null, SFML.Graphics.Color? backgroundColor = null)
+  private string name = "";
+  
+  public Menu(string menuName, string? bgImageName = null) //bgImageName for menus with custom background images.
   {
-    if (bgImageName == null && backgroundColor == null)
+    name = menuName;
+    if (bgImageName != null)
     {
-      bgColor = SFML.Graphics.Color.Black;
+      
     }
   }
   
@@ -58,4 +60,20 @@ public class Menu
     
     return nextMenu;
   }
+
+  public void addButton(Button button)
+  {
+    butts.Add(button);
+  }
+
+  public void draw(RenderWindow win)
+  {
+    foreach (Button button in butts)
+    {
+      button.draw(win);
+    }
+  }
 }
+
+
+
