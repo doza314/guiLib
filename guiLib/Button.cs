@@ -39,9 +39,10 @@ public class Button
     private Vector2f dims;
     private Sprite sprite;
     private string name;
-    
+
     //button texture file name will default to buttonName + ".png"
-    public Button(Vector2f position, Vector2f dimensions, string buttonName) //NAME STRING CORRESPONDS TO THE ASSOCIATED MENU
+    public Button(Vector2f position, Vector2f dimensions,
+        string buttonName) //NAME STRING CORRESPONDS TO THE ASSOCIATED MENU
     {
         name = buttonName;
         idleString = "res/" + buttonName + ".png";
@@ -57,19 +58,24 @@ public class Button
         sprite.Origin = new Vector2f(0, 0); //origin of sprite in top-left corner
         sprite.Position = pos;
     }
-    
+
     //SETTERS
-    public void setTextureFile(string filename) 
+    public void setTextureFile(string filename)
     {
         name = "res/" + filename;
         idleString = name + ".png";
         activeString = name + "_pressed.png";
-        
+
         idleTexture = new Texture(idleString);
-        activeTexture = new Texture(activeString); 
+        activeTexture = new Texture(activeString);
     }
 
-    public void setIdle(string filename)
+    public void setName(string name)
+    {
+        this.name = name;
+    }
+
+public void setIdle(string filename)
     {
         idleString = filename;
     }
@@ -107,6 +113,11 @@ public class Button
     }
         
     //GETTERS
+    public string getName()
+    {
+        return name;
+    }
+    
     public string getActiveString()
     {
         return activeString;

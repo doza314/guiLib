@@ -8,6 +8,7 @@ public class Menu
 {
   private Texture bgTexture;
   private List<Button> butts = new List<Button>();
+  private SFML.Graphics.Color color;
   
   private string name = "";
   
@@ -16,10 +17,36 @@ public class Menu
     name = menuName;
     if (bgImageName != null)
     {
-      
+      color = SFML.Graphics.Color.Green;
     }
   }
   
+  //Setters
+  public void setName(string name)
+  {
+    this.name = name;
+  }
+
+  public void setBgColor(Color color)
+  {
+    this.color = color;
+  }
+  
+  public void addButton(Button button)
+    {
+      butts.Add(button);
+    }
+  //Getters
+  public string getName()
+  {
+    return name;
+  }
+  public SFML.Graphics.Color getColor()
+  {
+    return color;
+  }
+  
+  //MAIN TRIGGER METHOD
   public string triggerTransition(RenderWindow win)
   {
     string nextMenu = "";
@@ -61,16 +88,13 @@ public class Menu
     return nextMenu;
   }
 
-  public void addButton(Button button)
-  {
-    butts.Add(button);
-  }
+  
 
-  public void draw(RenderWindow win)
+  public void drawButts(RenderWindow win)
   {
     foreach (Button button in butts)
     {
-      button.draw(win);
+      button.drawSprite(win);
     }
   }
 }
