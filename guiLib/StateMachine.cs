@@ -7,16 +7,84 @@ using SFML.Window;
 public class StateMachine //THIS CLASS DIRECTS THE FLOW OF MENUS
 {
     private List<Menu> menus = new List<Menu>();
-    private RenderWindow window;
+    private List<string> menuNames = new List<string>();
+    private RenderWindow win;
     private Vector2f dimensions;
-    public StateMachine(string Title, Vector2u dimensions, SFML.Graphics.Color? defaultBackgroundColor = null)
+    private string startingMenu;
+    private string currentMenu;
+    private string nextMenu;
+    private string exitString;
+    private Color bgColor;
+
+    public StateMachine(string Title, Vector2u dimensions, Color? defaultBackgroundColor, string startMenu)
     {
-        
-    }
-    
-    public void AddMenu(Menu menu)
-    {
-      menus.Add(menu);
+        win = new RenderWindow(new VideoMode(dimensions), Title, Styles.Default, State.Windowed);
+        win.Clear(defaultBackgroundColor ?? Color.Black);
+        startingMenu = startMenu;
+        currentMenu = startMenu;
+        bgColor = defaultBackgroundColor ?? Color.Black;
     }
 
+    public void Run()
+    {
+        if (menus.Count == 0)
+        {
+            Console.WriteLine("No menus have been added.");
+            return;
+        }
+
+        while (win.IsOpen)
+        {
+            win.DispatchEvents();
+            win.Clear(bgColor);
+            
+            foreach (Menu menu in menus)
+            {
+                
+                if (menu.getName() == currentMenu)
+                {
+                    menu.drawButts(win);
+                    nextMenu = menu.triggerTransition(win);
+                    if (nextMenu != "")
+                    {
+                        currentMenu = nextMenu;
+                    }
+                    else if (nextMenu == exitString)
+                    {
+                        win.Close();
+                        return;
+                    }
+                }
+            }
+            
+            win.Display();
+        }
+    }
+
+    public void setStart(string menuName)
+    {
+        startingMenu = menuName;
+    }
+
+    public void AddMenu(Menu menu)
+    {
+        menus.Add(menu);
+        menuNames.Add(menu.getName());
+    }
+    
+    public void RemoveMenu(string name)
+    {
+        foreach (Menu menu in menus)
+        {
+            if (menu.getName() == name)
+            {
+                menus.Remove(menu);
+            }
+        }
+    }
+    
+    public void setExit(string exitString)
+    {
+        currentMenu = exitString;
+    }
 }

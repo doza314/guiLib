@@ -41,8 +41,7 @@ public class Button
     private string name;
 
     //button texture file name will default to buttonName + ".png"
-    public Button(Vector2f position, Vector2f dimensions,
-        string buttonName) //NAME STRING CORRESPONDS TO THE ASSOCIATED MENU
+    public Button(Vector2f position, Vector2f dimensions, string buttonName) //NAME STRING CORRESPONDS TO THE ASSOCIATED MENU
     {
         name = buttonName;
         idleString = "res/" + buttonName + ".png";
@@ -59,6 +58,7 @@ public class Button
         sprite.Position = pos;
     }
 
+    
     //SETTERS
     public void setTextureFile(string filename)
     {
@@ -75,7 +75,7 @@ public class Button
         this.name = name;
     }
 
-public void setIdle(string filename)
+    public void setIdle(string filename)
     {
         idleString = filename;
     }
@@ -112,6 +112,7 @@ public void setIdle(string filename)
         }
     }
         
+    
     //GETTERS
     public string getName()
     {
@@ -148,6 +149,7 @@ public void setIdle(string filename)
         return sprite.GetGlobalBounds();
     }
 
+    
     //DRAW BUTTON
     public void drawSprite(RenderWindow win)
     {

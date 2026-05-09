@@ -8,18 +8,18 @@ public class Menu
 {
   private Texture bgTexture;
   private List<Button> butts = new List<Button>();
-  private SFML.Graphics.Color color;
-  
-  private string name = "";
+  private Color color;
+  private string name;
   
   public Menu(string menuName, string? bgImageName = null) //bgImageName for menus with custom background images.
   {
     name = menuName;
     if (bgImageName != null)
     {
-      color = SFML.Graphics.Color.Green;
+      color = Color.Green; //green arbitrarily picked as default
     }
   }
+  
   
   //Setters
   public void setName(string name)
@@ -36,15 +36,18 @@ public class Menu
     {
       butts.Add(button);
     }
+  
+  
   //Getters
   public string getName()
   {
     return name;
   }
-  public SFML.Graphics.Color getColor()
+  public Color getColor()
   {
     return color;
   }
+  
   
   //MAIN TRIGGER METHOD
   public string triggerTransition(RenderWindow win)
@@ -87,9 +90,9 @@ public class Menu
     
     return nextMenu;
   }
-
   
-
+  
+  //MISC. FUNCTIONALITY
   public void drawButts(RenderWindow win)
   {
     foreach (Button button in butts)
