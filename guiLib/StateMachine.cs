@@ -12,7 +12,7 @@ public class StateMachine //THIS CLASS DIRECTS THE FLOW OF MENUS
     private Vector2f dimensions;
     private string startingMenu;
     private string currentMenu;
-    private string nextMenu;
+    private string buttonClicked;
     private string exitString;
     private Color bgColor;
 
@@ -44,13 +44,17 @@ public class StateMachine //THIS CLASS DIRECTS THE FLOW OF MENUS
                 if (menu.getName() == currentMenu)
                 {
                     menu.drawButts(win);
-                    nextMenu = menu.triggerTransition(win);
-                    if (nextMenu != "")
+                    
+                    buttonClicked = menu.triggerTransition(win);
+                   
+                    if (buttonClicked != "" && buttonClicked != exitString)
                     {
-                        currentMenu = nextMenu;
+                        currentMenu = buttonClicked;
+                        Console.Write(buttonClicked + "was clicked. Changing Menu.");
                     }
-                    else if (nextMenu == exitString)
+                    else if (buttonClicked == exitString)
                     {
+                        Console.Write(buttonClicked + "was clicked. Closing game.");
                         win.Close();
                         return;
                     }
@@ -61,7 +65,7 @@ public class StateMachine //THIS CLASS DIRECTS THE FLOW OF MENUS
         }
     }
 
-    public void setStart(string menuName)
+    public void setStart(string? menuName = "")
     {
         startingMenu = menuName;
     }
@@ -83,8 +87,8 @@ public class StateMachine //THIS CLASS DIRECTS THE FLOW OF MENUS
         }
     }
     
-    public void setExit(string exitString)
+    public void setExit(string? exitButtonName = "")
     {
-        currentMenu = exitString;
+        exitString = exitButtonName;
     }
 }

@@ -52,7 +52,7 @@ public class Menu
   //MAIN TRIGGER METHOD
   public string triggerTransition(RenderWindow win)
   {
-    string nextMenu = "";
+    string buttonClicked = "";
     
     win.MouseButtonPressed += (sender, e) => //left mouse click event
     {
@@ -77,7 +77,8 @@ public class Menu
         {
           if (butt.getBounds().Contains(e.Position) && butt.getState() == ButtonState.Active)
           {
-            nextMenu = butt.getName();
+            butt.setState(ButtonState.Idle);
+            buttonClicked = butt.getName();
             break;
           }
           else
@@ -88,7 +89,7 @@ public class Menu
       }
     };
     
-    return nextMenu;
+    return buttonClicked;
   }
   
   
