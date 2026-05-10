@@ -7,8 +7,9 @@ using SFML.Graphics;
 public class Menu
 {
   private Texture bgTexture;
+  private string bgString;
   private List<Button> butts = new List<Button>();
-  private Color color;
+  private Color color = Color.Transparent;
   private string name;
   public string buttonClicked = "";
   public string output = "";
@@ -16,10 +17,7 @@ public class Menu
   public Menu(string menuName, string? bgImageName = null) //bgImageName for menus with custom background images.
   {
     name = menuName;
-    if (bgImageName != null)
-    {
-      color = Color.Green; //green arbitrarily picked as default
-    }
+    bgString = "res/" + bgImageName + ".png";
   }
   
   
@@ -91,7 +89,7 @@ public class Menu
 
   }
   
-  public string trigger(RenderWindow win)
+  public string trigger()
   {
     output = buttonClicked;
     buttonClicked = "";

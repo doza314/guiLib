@@ -1,6 +1,3 @@
-using System.Diagnostics.Tracing;
-using System.Net.Http.Headers;
-
 namespace guiLib;
 
 using System;
@@ -49,7 +46,7 @@ public class Button
 
         idleTexture = new Texture(idleString);
         activeTexture = new Texture(activeString);
-
+        
         pos = position;
         dims = dimensions;
 
@@ -102,6 +99,7 @@ public class Button
         switch (state)
         {
             case ButtonState.Active:
+ 
                 sprite.Texture = activeTexture;
                 break;
             case ButtonState.Idle:

@@ -12,6 +12,7 @@ public class StateMachine //THIS CLASS DIRECTS THE FLOW OF MENUS
     private Vector2f dimensions;
     private string startingMenu;
     private string currentMenu;
+    private int currIndex = 0;
     private string buttonClicked;
     private string exitString;
     private Color bgColor;
@@ -33,38 +34,47 @@ public class StateMachine //THIS CLASS DIRECTS THE FLOW OF MENUS
             return;
         }
 
-        foreach (Menu menu in menus)
+        foreach (Menu menu in menus) //initiating event polling
         {
             menu.eventPoll(win);
         }
-        
+
         while (win.IsOpen)
         {
             win.DispatchEvents();
-            win.Clear(bgColor);
-            
-            foreach (Menu menu in menus)
+            if (menus[currIndex].getColor() == Color.Transparent)
             {
-                
-                if (menu.getName() == currentMenu)
-                {
-                    menu.drawButts(win);
+                win.Clear(bgColor);
+            }
+            else if (menus[currIndex].getColor() != Color.Transparent)
+            {
+                win.Clear(menus[currIndex].getColor());
+            }
+               
+            menus[currIndex].drawButts(win);
                     
-                    buttonClicked = menu.trigger(win);
-                   
-                    if (buttonClicked != "" && buttonClicked != exitString)
+            buttonClicked = menus[currIndex].trigger();
+
+            if (buttonClicked != "" && buttonClicked != exitString)
+            {
+                for (int i = 0; i < menuNames.Count; i++)
+                {
+                    if (menuNames[i] == buttonClicked)
                     {
-                        currentMenu = buttonClicked;
-                        Console.Write(buttonClicked + "was clicked. Changing Menu.");
-                    }
-                    else if (buttonClicked == exitString)
-                    {
-                        Console.Write(buttonClicked + "was clicked. Closing game.");
-                        win.Close();
-                        return;
+                        currIndex = i;
+                        break;
                     }
                 }
+
+            Console.Write(buttonClicked + "was clicked. Changing Menu.");
             }
+            else if (buttonClicked == exitString)
+            {
+                Console.Write(buttonClicked + "was clicked. Closing game.");
+                win.Close();
+                return;
+            }
+            
             
             win.Display();
         }

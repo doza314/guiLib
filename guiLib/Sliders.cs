@@ -1,10 +1,10 @@
 namespace guiLib;
 
-public class Sliders
+public class Slider
 {
-    public Sliders()
+    public Slider(int parameter, int graphScale)
     {
-        
+               
     }
 
     public void drawSlider()
