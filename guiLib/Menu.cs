@@ -10,6 +10,8 @@ public class Menu
   private List<Button> butts = new List<Button>();
   private Color color;
   private string name;
+  public string buttonClicked = "";
+  public string output = "";
   
   public Menu(string menuName, string? bgImageName = null) //bgImageName for menus with custom background images.
   {
@@ -50,10 +52,8 @@ public class Menu
   
   
   //MAIN TRIGGER METHOD
-  public string triggerTransition(RenderWindow win)
+  public void eventPoll(RenderWindow win)
   {
-    string buttonClicked = "";
-    
     win.MouseButtonPressed += (sender, e) => //left mouse click event
     {
       foreach (Button butt in butts)
@@ -88,8 +88,14 @@ public class Menu
         }
       }
     };
-    
-    return buttonClicked;
+
+  }
+  
+  public string trigger(RenderWindow win)
+  {
+    output = buttonClicked;
+    buttonClicked = "";
+    return output;
   }
   
   

@@ -33,6 +33,11 @@ public class StateMachine //THIS CLASS DIRECTS THE FLOW OF MENUS
             return;
         }
 
+        foreach (Menu menu in menus)
+        {
+            menu.eventPoll(win);
+        }
+        
         while (win.IsOpen)
         {
             win.DispatchEvents();
@@ -45,7 +50,7 @@ public class StateMachine //THIS CLASS DIRECTS THE FLOW OF MENUS
                 {
                     menu.drawButts(win);
                     
-                    buttonClicked = menu.triggerTransition(win);
+                    buttonClicked = menu.trigger(win);
                    
                     if (buttonClicked != "" && buttonClicked != exitString)
                     {
