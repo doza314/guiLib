@@ -1,3 +1,5 @@
+using System.Reflection.Metadata.Ecma335;
+
 namespace guiLib;
 
 using System;
@@ -27,44 +29,78 @@ I'll probably make a toggle switch variant, too.
 public class Button
 {
     private ButtonState state = ButtonState.Idle; //0 = idle, 1 = active, 2 = selected
-
+    
+    private string name;
+    
+    private string fileName;
     private string idleString;
     private string activeString;
     private Texture idleTexture;
     private Texture activeTexture;
+    private Texture fallbackTexture = new Texture(new Vector2u(1, 1));
+    
     private Vector2f pos;
-    private Vector2f dims;
+    private Vector2f scale;
+    
     private Sprite sprite;
-    private string name;
+
+    private Shape shape;
+    private Color color;
 
     //button texture file name will default to buttonName + ".png"
-    public Button(Vector2f position, Vector2f dimensions, string buttonName) //NAME STRING CORRESPONDS TO THE ASSOCIATED MENU
+    public Button(Vector2f position, string buttonName) //NAME STRING CORRESPONDS TO THE ASSOCIATED MENU
     {
         name = buttonName;
         idleString = "res/" + buttonName + ".png";
         activeString = "res/" + buttonName + "_pressed.png";
-
-        idleTexture = new Texture(idleString);
-        activeTexture = new Texture(activeString);
         
-        pos = position;
-        dims = dimensions;
+        sprite = new Sprite(fallbackTexture);
 
-        sprite = new Sprite(idleTexture); //just default to idle texture
+        try
+        {
+            idleTexture = new Texture(idleString);
+            sprite.Texture = new Texture(idleTexture);
+        }
+        catch
+        {
+            Console.WriteLine("Could not find " + idleString);
+        }
+
+        try
+        {
+            activeTexture = new Texture(activeString);
+        }
+        catch
+        {
+            Console.WriteLine("Could not find " + activeString);
+        }
+
+        pos = position;
+        
         sprite.Origin = new Vector2f(0, 0); //origin of sprite in top-left corner
         sprite.Position = pos;
     }
 
     
     //SETTERS
-    public void setTextureFile(string filename)
+    public void textureFileOverride(string filename)
     {
-        name = "res/" + filename;
-        idleString = name + ".png";
-        activeString = name + "_pressed.png";
-
+        fileName = filename.Replace("res/", "")
+            .Replace("_pressed", "")
+            .Replace(".png", "")
+            .Replace(".jpeg", "")
+            .Replace(".jpg", "");
+        
+        idleString = "res/" + fileName + ".png";
         idleTexture = new Texture(idleString);
+        
+        activeString = "res/" + fileName + "_pressed.png";
         activeTexture = new Texture(activeString);
+        
+        sprite.Dispose();
+        sprite = new Sprite(idleTexture);
+        sprite.Origin = new Vector2f(0, 0);
+        sprite.Position = pos;
     }
 
     public void setName(string name)
@@ -72,24 +108,15 @@ public class Button
         this.name = name;
     }
 
-    public void setIdle(string filename)
-    {
-        idleString = filename;
-    }
-
-    public void setActive(string filename)
-    {
-        activeString = filename;
-    }
-
     public void setPosition(Vector2f position)
     {
         pos = position;
     }
 
-    public void setDims(Vector2f dimensions)
+    public void setScale(Vector2f spriteScale)
     {
-        dims = dimensions;  
+        scale = spriteScale;
+        sprite.Scale = scale;
     }
 
     public void setState(ButtonState buttState, bool? adjustTexture = true)
@@ -109,8 +136,9 @@ public class Button
                 break;
         }
     }
-        
-    
+
+   
+
     //GETTERS
     public string getName()
     {
@@ -132,9 +160,9 @@ public class Button
         return pos;
     }
 
-    public Vector2f getDims()
+    public Vector2f getScale()
     {
-        return dims;
+        return scale;
     }
 
     public ButtonState getState()

@@ -9,14 +9,43 @@ public class StateMachine //THIS CLASS DIRECTS THE FLOW OF MENUS
     private List<Menu> menus = new List<Menu>();
     private List<string> menuNames = new List<string>();
     private RenderWindow win;
-    private Vector2f dimensions;
+    
     private string startingMenu;
     private string currentMenu;
     private int currIndex = 0;
+    
     private string buttonClicked;
     private string exitString;
+    
     private Color bgColor;
 
+    private void stateDirect()
+    {
+        menus[currIndex].drawButts(win);
+        buttonClicked = menus[currIndex].trigger();
+
+        if (buttonClicked != "" && buttonClicked != exitString)
+        {
+            for (int i = 0; i < menuNames.Count; i++)
+            {
+                if (menuNames[i] == buttonClicked && currIndex != i)
+                {
+                    menus[currIndex].stopPolling(win);
+                    currIndex = i;
+                    break;
+                }
+            }
+
+            Console.Write(buttonClicked + "was clicked. Changing Menu.");
+        }
+        else if (buttonClicked == exitString)
+        {
+            Console.Write(buttonClicked + "was clicked. Closing game.");
+            win.Close();
+            return;
+        }
+    }
+    
     public StateMachine(string Title, Vector2u dimensions, Color? defaultBackgroundColor, string startMenu)
     {
         win = new RenderWindow(new VideoMode(dimensions), Title, Styles.Default, State.Windowed);
@@ -34,14 +63,15 @@ public class StateMachine //THIS CLASS DIRECTS THE FLOW OF MENUS
             return;
         }
 
-        foreach (Menu menu in menus) //initiating event polling
-        {
-            menu.eventPoll(win);
-        }
-
         while (win.IsOpen)
         {
+            if (!menus[currIndex].isActive())
+            {
+                menus[currIndex].startPolling(win);
+            }
+            
             win.DispatchEvents();
+            
             if (menus[currIndex].getColor() == Color.Transparent)
             {
                 win.Clear(bgColor);
@@ -51,35 +81,12 @@ public class StateMachine //THIS CLASS DIRECTS THE FLOW OF MENUS
                 win.Clear(menus[currIndex].getColor());
             }
                
-            menus[currIndex].drawButts(win);
-                    
-            buttonClicked = menus[currIndex].trigger();
-
-            if (buttonClicked != "" && buttonClicked != exitString)
-            {
-                for (int i = 0; i < menuNames.Count; i++)
-                {
-                    if (menuNames[i] == buttonClicked)
-                    {
-                        currIndex = i;
-                        break;
-                    }
-                }
-
-            Console.Write(buttonClicked + "was clicked. Changing Menu.");
-            }
-            else if (buttonClicked == exitString)
-            {
-                Console.Write(buttonClicked + "was clicked. Closing game.");
-                win.Close();
-                return;
-            }
-            
+            stateDirect();
             
             win.Display();
         }
     }
-
+    
     public void setStart(string? menuName = "")
     {
         startingMenu = menuName;

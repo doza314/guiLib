@@ -6,15 +6,25 @@ using guiLib;
 var game = new StateMachine("TESTING", new Vector2u(960, 540), Color.Blue, "start");
 
 var startMenu = new Menu("start");
-startMenu.addButton(new Button(new Vector2f(100, 100), new Vector2f(150, 50), "button"));
+var butt1 = new Button(new Vector2f(100, 100), "nextMenu");
+butt1.textureFileOverride("button");
+startMenu.addButton(butt1);
 
-var nextMenu = new Menu("button");
-nextMenu.addButton(new Button(new Vector2f(150, 300), new  Vector2f(150, 50), "button1"));
+var nextMenu = new Menu("nextMenu");
+var butt2 = new Button(new Vector2f(150, 300), "exit");
+var butt3 = new Button(new Vector2f(400, 300),  "start");
+
+butt2.textureFileOverride("button");
+butt3.textureFileOverride("button");
+
+nextMenu.addButton(butt2);
+nextMenu.addButton(butt3);
+
 nextMenu.setBgColor(Color.Green);
 
 game.AddMenu(startMenu);
 game.AddMenu(nextMenu);
 
-game.setExit("button1");
+game.setExit("exit");
 game.Run();
 

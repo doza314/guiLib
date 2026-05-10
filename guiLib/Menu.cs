@@ -11,16 +11,18 @@ public class Menu
   private List<Button> butts = new List<Button>();
   private Color color = Color.Transparent;
   private string name;
-  public string buttonClicked = "";
-  public string output = "";
-  
+  private string buttonClicked = "";
+  private string output = "";
+
+  private bool active = false;
+
   public Menu(string menuName, string? bgImageName = null) //bgImageName for menus with custom background images.
   {
     name = menuName;
     bgString = "res/" + bgImageName + ".png";
   }
-  
-  
+
+
   //Setters
   public void setName(string name)
   {
@@ -31,29 +33,28 @@ public class Menu
   {
     this.color = color;
   }
-  
+
   public void addButton(Button button)
-    {
-      butts.Add(button);
-    }
-  
-  
+  {
+    butts.Add(button);
+  }
+
+
   //Getters
   public string getName()
   {
     return name;
   }
+
   public Color getColor()
   {
     return color;
   }
-  
-  
-  //MAIN TRIGGER METHOD
-  public void eventPoll(RenderWindow win)
+
+
+  //MAIN TRIGGER METHODS
+  private void onMousePressed(object? sender, MouseButtonEventArgs e)
   {
-    win.MouseButtonPressed += (sender, e) => //left mouse click event
-    {
       foreach (Button butt in butts)
       {
         if (e.Button == Mouse.Button.Left)
@@ -65,10 +66,11 @@ public class Menu
           }
         }
       }
-    };
-    
-    win.MouseButtonReleased += (sender, e) => //left mouse released from clicking
-    {
+  }
+
+  private void onMouseReleased(object? sender, MouseButtonEventArgs e)
+  {
+
       foreach (Button butt in butts)
       {
         if (e.Button == Mouse.Button.Left)
@@ -85,8 +87,26 @@ public class Menu
           }
         }
       }
-    };
+  }
+  
+  public void startPolling(RenderWindow win)
+  {
+      active = true;
+      win.MouseButtonPressed += onMousePressed;
+      win.MouseButtonReleased += onMouseReleased;
+  }
 
+  public void stopPolling(RenderWindow win)
+  {
+    active = false;
+    win.MouseButtonPressed -= onMousePressed;
+    win.MouseButtonReleased -= onMouseReleased;
+  }
+  
+  
+  public bool isActive()
+  {
+    return active;
   }
   
   public string trigger()
