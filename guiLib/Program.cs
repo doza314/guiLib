@@ -22,8 +22,8 @@ nextMenu.addButton(butt3);
 
 nextMenu.setBgColor(Color.Green);
 
-game.AddMenu(startMenu);
-game.AddMenu(nextMenu);
+game.addMenu(startMenu);
+game.addMenu(nextMenu);
 
 game.setExit("exit");
 game.Run();

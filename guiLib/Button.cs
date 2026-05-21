@@ -126,7 +126,6 @@ public class Button
         switch (state)
         {
             case ButtonState.Active:
- 
                 sprite.Texture = activeTexture;
                 break;
             case ButtonState.Idle:

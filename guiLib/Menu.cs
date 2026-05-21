@@ -103,12 +103,6 @@ public class Menu
     win.MouseButtonReleased -= onMouseReleased;
   }
   
-  
-  public bool isActive()
-  {
-    return active;
-  }
-  
   public string trigger()
   {
     output = buttonClicked;
@@ -116,7 +110,11 @@ public class Menu
     return output;
   }
   
-  
+  public bool isActive()
+  {
+    return active;
+  }
+    
   //MISC. FUNCTIONALITY
   public void drawButts(RenderWindow win)
   {

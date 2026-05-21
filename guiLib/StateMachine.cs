@@ -33,7 +33,7 @@ public class StateMachine //THIS CLASS DIRECTS THE FLOW OF MENUS
                     menus[currIndex].stopPolling(win);
                     currIndex = i;
                     break;
-                }
+                } 
             }
 
             Console.Write(buttonClicked + "was clicked. Changing Menu.");
@@ -92,13 +92,13 @@ public class StateMachine //THIS CLASS DIRECTS THE FLOW OF MENUS
         startingMenu = menuName;
     }
 
-    public void AddMenu(Menu menu)
+    public void addMenu(Menu menu)
     {
         menus.Add(menu);
         menuNames.Add(menu.getName());
     }
     
-    public void RemoveMenu(string name)
+    public void removeMenu(string name)
     {
         foreach (Menu menu in menus)
         {
