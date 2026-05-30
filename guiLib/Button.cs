@@ -29,6 +29,8 @@ I'll probably make a toggle switch variant, too.
 public class Button
 {
     private ButtonState state = ButtonState.Idle; //0 = idle, 1 = active, 2 = selected
+
+    private Action function;
     
     private string name;
     
@@ -48,32 +50,18 @@ public class Button
     private Color color;
 
     //button texture file name will default to buttonName + ".png"
-    public Button(Vector2f position, string buttonName) //NAME STRING CORRESPONDS TO THE ASSOCIATED MENU
+    public Button(Action func, Vector2f position, string buttonName)
     {
-        name = buttonName;
-        idleString = "res/" + buttonName + ".png";
-        activeString = "res/" + buttonName + "_pressed.png";
+        function = func;
         
-        sprite = new Sprite(fallbackTexture);
-
-        try
-        {
-            idleTexture = new Texture(idleString);
-            sprite.Texture = new Texture(idleTexture);
-        }
-        catch
-        {
-            Console.WriteLine("Could not find " + idleString);
-        }
-
-        try
-        {
-            activeTexture = new Texture(activeString);
-        }
-        catch
-        {
-            Console.WriteLine("Could not find " + activeString);
-        }
+        name = buttonName; //texture file defaults to initially specified name
+        idleString = "res/" + buttonName + ".png";
+        idleTexture = new Texture(idleString);
+        
+        activeString = "res/" + buttonName + "_pressed.png";
+        activeTexture = new Texture(activeString);
+        
+        sprite = new Sprite(idleTexture);
 
         pos = position;
         
@@ -81,11 +69,16 @@ public class Button
         sprite.Position = pos;
     }
 
+    public void onClick()
+    {
+        this.function();
+    }
     
     //SETTERS
     public void textureFileOverride(string filename)
     {
-        fileName = filename.Replace("res/", "")
+        fileName = filename
+            .Replace("res/", "")
             .Replace("_pressed", "")
             .Replace(".png", "")
             .Replace(".jpeg", "")

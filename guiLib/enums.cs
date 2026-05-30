@@ -3,12 +3,24 @@ namespace guiLib
     public enum ButtonState
     {
         Idle,
-        Active
+        Active,
+        Off,
+        On
     }
 
-    public enum ToggleState
+    public enum machineState
     {
         Off,
         On
     }
+
+    public enum action
+    {
+        open,
+        close,
+        pause,
+        resume
+    }
+    
+    
 }

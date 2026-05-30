@@ -6,111 +6,73 @@ using SFML.Window;
 
 public class StateMachine //THIS CLASS DIRECTS THE FLOW OF MENUS
 {
-    private List<Menu> menus = new List<Menu>();
-    private List<string> menuNames = new List<string>();
     private RenderWindow win;
     
-    private string startingMenu;
-    private string currentMenu;
-    private int currIndex = 0;
-    
-    private string buttonClicked;
-    private string exitString;
-    
-    private Color bgColor;
+    private Menu currentMenu; 
+    private Menu startMenu;
+        
+    private Color bgColor; //default background color
 
-    private void stateDirect()
+    private machineState currentState = machineState.On;
+    
+    
+    public StateMachine(Menu startingMenu, string title, Vector2u? dimensions, Color? defaultBackgroundColor)
     {
-        menus[currIndex].drawButts(win);
-        buttonClicked = menus[currIndex].trigger();
-
-        if (buttonClicked != "" && buttonClicked != exitString)
-        {
-            for (int i = 0; i < menuNames.Count; i++)
-            {
-                if (menuNames[i] == buttonClicked && currIndex != i)
-                {
-                    menus[currIndex].stopPolling(win);
-                    currIndex = i;
-                    break;
-                } 
-            }
-
-            Console.Write(buttonClicked + "was clicked. Changing Menu.");
-        }
-        else if (buttonClicked == exitString)
-        {
-            Console.Write(buttonClicked + "was clicked. Closing game.");
-            win.Close();
-            return;
-        }
-    }
-    
-    public StateMachine(string Title, Vector2u dimensions, Color? defaultBackgroundColor, string startMenu)
-    {
-        win = new RenderWindow(new VideoMode(dimensions), Title, Styles.Default, State.Windowed);
+        win = new RenderWindow(new VideoMode(dimensions ?? new Vector2u(600, 600)), title, Styles.Default, State.Windowed);
         win.Clear(defaultBackgroundColor ?? Color.Black);
-        startingMenu = startMenu;
+        startMenu = startingMenu;
         currentMenu = startMenu;
         bgColor = defaultBackgroundColor ?? Color.Black;
+        
+        if (string.IsNullOrEmpty(title))
+        {
+            throw new ArgumentException("Title cannot be null or empty.");
+        }
     }
 
-    public void Run()
+    public void navigate(Menu menu)
     {
-        if (menus.Count == 0)
-        {
-            Console.WriteLine("No menus have been added.");
-            return;
-        }
+        Console.WriteLine("Switching to " + menu.getName());
+        currentMenu.stopPolling(win);
+        currentMenu = menu;
+    }
 
+    public void close()
+    {
+        currentState = machineState.Off;
+    }
+    
+    public void run()
+    {
         while (win.IsOpen)
         {
-            if (!menus[currIndex].isActive())
+            if (!currentMenu.isActive()) //if the currently selected menu is inactive, activate it
             {
-                menus[currIndex].startPolling(win);
+                currentMenu.startPolling(win);
+            }
+            if (currentMenu.getColor() == Color.Transparent) //if menu has no background color set, set background to machine default
+            { 
+                win.Clear(bgColor); 
+            }
+            else if (currentMenu.getColor() != Color.Transparent) //if menu specifies background color
+            {
+                win.Clear(currentMenu.getColor());
             }
             
             win.DispatchEvents();
-            
-            if (menus[currIndex].getColor() == Color.Transparent)
-            {
-                win.Clear(bgColor);
-            }
-            else if (menus[currIndex].getColor() != Color.Transparent)
-            {
-                win.Clear(menus[currIndex].getColor());
-            }
-               
-            stateDirect();
-            
+            currentMenu.drawButts(win);
             win.Display();
-        }
-    }
-    
-    public void setStart(string? menuName = "")
-    {
-        startingMenu = menuName;
-    }
-
-    public void addMenu(Menu menu)
-    {
-        menus.Add(menu);
-        menuNames.Add(menu.getName());
-    }
-    
-    public void removeMenu(string name)
-    {
-        foreach (Menu menu in menus)
-        {
-            if (menu.getName() == name)
+            
+            if (currentState == machineState.Off) //close game
             {
-                menus.Remove(menu);
+                Console.WriteLine("closing game.");
+                win.Close();
             }
         }
     }
     
-    public void setExit(string? exitButtonName = "")
+    public void setStart(Menu start)
     {
-        exitString = exitButtonName;
+        startMenu = start;
     }
 }

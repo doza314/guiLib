@@ -11,8 +11,6 @@ public class Menu
   private List<Button> butts = new List<Button>();
   private Color color = Color.Transparent;
   private string name;
-  private string buttonClicked = "";
-  private string output = "";
 
   private bool active = false;
 
@@ -53,7 +51,7 @@ public class Menu
 
 
   //MAIN TRIGGER METHODS
-  private void onMousePressed(object? sender, MouseButtonEventArgs e)
+  private void onMousePressed(object? sender, MouseButtonEventArgs e) 
   {
       foreach (Button butt in butts)
       {
@@ -78,7 +76,7 @@ public class Menu
           if (butt.getBounds().Contains(e.Position) && butt.getState() == ButtonState.Active)
           {
             butt.setState(ButtonState.Idle);
-            buttonClicked = butt.getName();
+            butt.onClick();
             break;
           }
           else
@@ -101,13 +99,6 @@ public class Menu
     active = false;
     win.MouseButtonPressed -= onMousePressed;
     win.MouseButtonReleased -= onMouseReleased;
-  }
-  
-  public string trigger()
-  {
-    output = buttonClicked;
-    buttonClicked = "";
-    return output;
   }
   
   public bool isActive()
